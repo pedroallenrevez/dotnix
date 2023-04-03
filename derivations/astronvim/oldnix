@@ -1,0 +1,62 @@
+{ lib
+, stdenv
+, builtins
+, pkgs
+, pkgs-unstable
+, user
+, ...
+}:
+
+#user = "tft";
+
+#git revision is 4f4269d174d85df8b278a6e09d05daeef840df4a
+#path is /nix/store/vj8msvbsk6lqsfcigkaixbr5436gpxzx-AstroNvim
+#git human-readable version is -- none --
+#Commit date is 2023-01-10 13:37:05 -0500
+#hash is 0cknamcvw7il7fbndaj9dc6g66fj32aby87iqx8akr6nl83sp4ky
+#{
+#  "url": "https://github.com/AstroNvim/AstroNvim",
+#  "rev": "4f4269d174d85df8b278a6e09d05daeef840df4a",
+#  "date": "2023-01-10T13:37:05-05:00",
+#  "path": "/nix/store/vj8msvbsk6lqsfcigkaixbr5436gpxzx-AstroNvim",
+#  "sha256": "0cknamcvw7il7fbndaj9dc6g66fj32aby87iqx8akr6nl83sp4ky",
+#  "fetchLFS": false,
+#  "fetchSubmodules": false,
+#  "deepClone": false,
+#  "leaveDotGit": false
+#}
+
+stdenv.mkDerivation {
+  pname = "astronvim";
+  version = "2.10";
+
+  buildInputs = [ pkgs-unstable.neovim ];
+
+  src = pkgs.fetchFromGitHub {
+      owner = "AstroNvim";
+      repo = "AstroNvim";
+      rev = "4f4269d174d85df8b278a6e09d05daeef840df4a"; # git-SHA of curret master HEAD
+      sha256 = "0cknamcvw7il7fbndaj9dc6g66fj32aby87iqx8akr6nl83sp4ky";
+  };
+  #builder = pkgs.writeShellScriptBin "install-astronvim.sh" ''
+  #  mv /home/${user}/.config/nvim /home/${user}/.config/nvim.bak
+  #  mv /home/${user}/.local/share/nvim /home/${user}/.local/share/nvim.bak
+  #  cp -r ${src} /home/${user}/.config/nvim
+  #  nvim +PackerSync
+  #'';
+
+  meta = with lib; {
+    description = "A program that produces a familiar, friendly greeting";
+    longDescription = ''
+      GNU Hello is a program that prints "Hello, world!" when you run it.
+      It is fully customizable.
+    '';
+    homepage = "https://www.gnu.org/software/hello/manual/";
+    changelog = "https://git.savannah.gnu.org/cgit/hello.git/plain/NEWS?h=v${version}";
+    license = licenses.gpl3Plus;
+    maintainers = [ maintainers.eelco ];
+    platforms = platforms.all;
+  };
+}
+
+
